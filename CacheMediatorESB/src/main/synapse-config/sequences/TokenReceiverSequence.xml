@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="TokenReceiverSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- Persist the response from random.org to Cache -->
+    <cache collector="true" scope="per-host"/>
+    <log level="custom">
+        <property name="MSG_FLOW" value="TOKEN_RECV"/>
+        <property expression="$body//p1:text" name="TOKEN" xmlns:ns="http://org.apache.synapse/xsd" xmlns:p1="http://ws.apache.org/commons/ns/payload"/>
+    </log>
+    <!-- Continue to the backend calling logic -->
+    <sequence key="CallBESequence"/>
+</sequence>

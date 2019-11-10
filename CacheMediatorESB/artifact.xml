@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="SimpleBackend" groupId="com.example.cachemediator-esb.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/SimpleBackend.xml</file>
+    </artifact>
+    <artifact name="AuthAndCallLoggingAPI" groupId="com.example.cachemediator-esb.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/AuthAndCallLoggingAPI.xml</file>
+    </artifact>
+    <artifact name="TokenReceiverSequence" groupId="com.example.cachemediator-esb.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/TokenReceiverSequence.xml</file>
+    </artifact>
+    <artifact name="CallBESequence" groupId="com.example.cachemediator-esb.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/CallBESequence.xml</file>
+    </artifact>
+</artifacts>

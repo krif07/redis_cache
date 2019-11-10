@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/calllogging" name="AuthAndCallLoggingAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <log level="custom">
+                <property name="MSG_FLOW" value="IN"/>
+            </log>
+            <!-- Do a cache lookup for the Token -->
+            <cache collector="false" hashGenerator="org.wso2.carbon.mediator.cache.digest.DOMHASHGenerator" id="tokenCache1" scope="per-host" timeout="120">
+                <onCacheHit sequence="CallBESequence"/>
+                <implementation maxSize="1000" type="memory"/>
+                <!-- If a token is found, jump mediation flow to CallBESequence -->
+            </cache>
+            <!-- If the cache lookup fails, we need to retrieve a new token from IAM Service -->
+            <property name="uri.var.num" scope="default" type="STRING" value="1"/>
+            <property name="uri.var.min" scope="default" type="STRING" value="1"/>
+            <property name="uri.var.max" scope="default" type="STRING" value="100000"/>
+            <property name="uri.var.col" scope="default" type="STRING" value="1"/>
+            <property name="uri.var.base" scope="default" type="STRING" value="10"/>
+            <property name="uri.var.format" scope="default" type="STRING" value="plain"/>
+            <property name="uri.var.rnd" scope="default" type="STRING" value="new"/>
+            <!-- TokenReceiverSequence will handle the response from the random.org endpoint call -->
+            <send receive="TokenReceiverSequence">
+                <endpoint>
+                    <http method="get" uri-template="https://www.random.org/integers/?num={uri.var.num}&amp;min={uri.var.min}&amp;max={uri.var.max}&amp;col={uri.var.col}&amp;base={uri.var.base}&amp;format={uri.var.format}&amp;rnd={uri.var.rnd}"/>
+                </endpoint>
+            </send>
+        </inSequence>
+        <outSequence>
+            <!-- Forward the response to the client -->
+            <send/>
+        </outSequence>
+        <faultSequence/>
+    </resource>
+</api>

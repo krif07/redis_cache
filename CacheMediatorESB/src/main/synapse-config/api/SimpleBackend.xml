@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/log" name="SimpleBackend" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" outSequence="main">
+        <inSequence>
+            <!-- Let's see the conent of the request -->
+            <log level="full" separator="--"/>
+            <!-- Sending a simple response -->
+            <payloadFactory media-type="text">
+                <format>{"status":"0"}</format>
+                <args/>
+            </payloadFactory>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
+            <respond/>
+        </inSequence>
+        <faultSequence>
+            <drop/>
+        </faultSequence>
+    </resource>
+</api>

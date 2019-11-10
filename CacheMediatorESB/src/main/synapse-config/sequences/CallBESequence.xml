@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="CallBESequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- Retrieve token from the message context -->
+    <property expression="$body//p1:text" name="authToken" scope="default" type="STRING" xmlns:ns="http://org.apache.synapse/xsd" xmlns:p1="http://ws.apache.org/commons/ns/payload"/>
+    <log>
+        <property name="MSG_FLOW" value="B/E Call"/>
+        <property expression="get-property('authToken')" name="BODY" xmlns:ns="http://org.apache.synapse/xsd"/>
+    </log>
+    <!-- Construct the backend calling payload -->
+    <payloadFactory media-type="json">
+        <format>{"token":"$1"}</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('authToken')" xmlns:ns="http://org.apache.synapse/xsd"/>
+        </args>
+    </payloadFactory>
+    <send>
+        <endpoint>
+            <http method="post" uri-template="http://localhost:8290/log"/>
+        </endpoint>
+    </send>
+</sequence>
